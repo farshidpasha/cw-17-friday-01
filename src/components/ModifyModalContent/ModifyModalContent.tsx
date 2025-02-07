@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 
 import { Itask } from "../../types/types";
 
@@ -20,8 +20,15 @@ interface Iprops {
 
 export default function ModifyModalContent({ isEdit, handleSubmit }: Iprops) {
   const [taskName, setTaskName] = useState("");
+  const taskName2 = useRef<HTMLInputElement>(null);
   const [priority, setPriority] = useState("low");
   const [description, setDescription] = useState("");
+  const descriptionRef = useRef<HTMLTextAreaElement>(null);
+
+  // const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+  //   console.log(e);
+  //   e.currentTarget.style.backgroundColor = "blue";
+  // };
 
   const handleSubmitButton = () => {
     handleSubmit({
@@ -32,6 +39,10 @@ export default function ModifyModalContent({ isEdit, handleSubmit }: Iprops) {
     });
   };
 
+  // useEffect(() => {
+  //   descriptionRef.current?.focus();
+  // }, []);
+
   return (
     <div>
       <label htmlFor="taskName" className="block mb-2 font-medium">
@@ -41,6 +52,7 @@ export default function ModifyModalContent({ isEdit, handleSubmit }: Iprops) {
         *required
       </span>
       <input
+        ref={taskName2}
         type="text"
         id="taskName"
         placeholder="Task Name"
@@ -70,6 +82,7 @@ export default function ModifyModalContent({ isEdit, handleSubmit }: Iprops) {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         className="w-full p-2 rounded-lg border border-gray-300 mb-4"
+        ref={descriptionRef}
       ></textarea>
       <button
         onClick={handleSubmitButton}
